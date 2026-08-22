@@ -239,26 +239,6 @@ video {
   machine frame, so the camera stage takes the remaining height.
   object-fit below keeps the photo/frame aligned.
 */
-.machine-label {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-width: 0;
-  padding: 0 4px 4px;
-  color: #8f8f89;
-  font-family: "Courier New", monospace;
-  font-size: 7px;
-  font-weight: 700;
-  letter-spacing: 0.13em;
-}
-
-.status-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #e9e8e2;
-  box-shadow: 0 0 7px rgba(255,255,255,0.48);
-}
 
 .camera-stage {
   position: relative;
