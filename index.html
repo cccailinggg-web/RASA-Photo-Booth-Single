@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta
+    name="description"
+    content="RASA PHOTO BOOTH — 拍下今日精彩時刻。照片只在你的裝置內處理，不會上傳或保存。"
+  >
+  <title>RASA PHOTO BOOTH</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+
+<body>
+  <main class="booth" id="booth">
+    <header class="booth-header">
+      <div class="brand-copy">
+        <img class="rasa-logo" src="./assets/rasa-logo.png" alt="RASA">
+
+        <p class="campaign-copy">
+          使用 RASA Photo Booth，上傳今日的精彩時刻！<br>
+          發布限時動態並標註 <strong>@rasa.tw</strong>，憑上傳頁面即可至吧台兌換 Shot 一杯。
+        </p>
+      </div>
+
+      <button
+        class="camera-switch"
+        id="cameraSwitchButton"
+        type="button"
+        aria-label="切換自拍與後鏡頭"
+        title="切換鏡頭"
+      >
+        <span class="switch-icon" aria-hidden="true">↻</span>
+        <span>FLIP</span>
+      </button>
+    </header>
+
+    <section class="photo-zone" aria-label="RASA Photo Booth 相機">
+      <div class="photo-machine">
+        <div class="machine-label" aria-hidden="true">
+          <span>RASA PHOTO BOOTH</span>
+          <span class="status-dot"></span>
+        </div>
+
+        <div class="camera-stage" id="cameraStage">
+          <video
+            id="cameraVideo"
+            autoplay
+            muted
+            playsinline
+            aria-label="相機預覽"
+          ></video>
+
+          <img
+            class="frame-overlay"
+            id="frameOverlay"
+            src="./assets/rasa-frame.png"
+            alt=""
+            aria-hidden="true"
+          >
+
+          <img
+            class="result-image"
+            id="resultImage"
+            alt="RASA Photo Booth 拍攝完成照片"
+            hidden
+          >
+
+          <div
+            class="camera-status"
+            id="cameraStatus"
+            role="status"
+            aria-live="polite"
+          >
+            REQUESTING CAMERA…
+          </div>
+
+          <div class="flash-layer" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="control-deck">
+      <div class="live-controls" id="liveControls">
+        <div class="control-caption" aria-hidden="true">
+          <span>01</span>
+          <span>READY TO SHOOT</span>
+        </div>
+
+        <button
+          class="shutter-button"
+          id="captureButton"
+          type="button"
+          disabled
+          aria-label="拍照"
+        >
+          <span class="shutter-ring">
+            <span class="shutter-core"></span>
+          </span>
+        </button>
+
+        <span class="control-spacer" aria-hidden="true"></span>
+      </div>
+
+      <div class="result-controls" id="resultControls" hidden>
+        <button class="utility-button" id="retakeButton" type="button">
+          RETAKE
+        </button>
+
+        <button class="download-button" id="downloadButton" type="button">
+          DOWNLOAD
+        </button>
+      </div>
+
+      <div class="permission-panel" id="permissionPanel" hidden>
+        <p id="permissionMessage">
+          無法啟用相機，請允許此網站使用相機。
+        </p>
+        <button class="utility-button permission-button" id="retryButton" type="button">
+          TRY AGAIN
+        </button>
+      </div>
+    </footer>
+
+    <canvas id="captureCanvas" width="1152" height="2048" hidden></canvas>
+  </main>
+
+  <script src="./app.js" defer></script>
+</body>
+</html>

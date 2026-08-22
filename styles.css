@@ -1,0 +1,557 @@
+:root {
+  --black: #000;
+  --panel: #0b0b0b;
+  --panel-2: #151515;
+  --metal: #252525;
+  --white: #f3f2ed;
+  --silver: #b7b7b0;
+  --muted: #797975;
+  --line: rgba(255, 255, 255, 0.15);
+  --line-strong: rgba(255, 255, 255, 0.28);
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  color-scheme: dark;
+  font-family:
+    Inter,
+    "Noto Sans TC",
+    "PingFang TC",
+    "Microsoft JhengHei",
+    system-ui,
+    -apple-system,
+    sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #000;
+}
+
+body {
+  color: var(--white);
+  overscroll-behavior: none;
+  -webkit-text-size-adjust: 100%;
+}
+
+button {
+  appearance: none;
+  -webkit-appearance: none;
+  font: inherit;
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 3px;
+}
+
+img,
+video {
+  display: block;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* --- Full-screen booth: deliberately no vertical scrolling --- */
+
+.booth {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: min(100%, 520px);
+  height: 100vh;
+  height: 100dvh;
+  margin: 0 auto;
+  padding:
+    calc(9px + var(--safe-top))
+    12px
+    calc(9px + var(--safe-bottom));
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255,255,255,0.055), transparent 23%),
+    linear-gradient(180deg, #060606 0%, #000 100%);
+}
+
+/* Faint old-machine scan texture */
+.booth::after {
+  content: "";
+  position: absolute;
+  z-index: 50;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.014) 0,
+      rgba(255,255,255,0.014) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+  opacity: 0.55;
+}
+
+/* --- Header --- */
+
+.booth-header {
+  position: relative;
+  z-index: 60;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 10px;
+  padding: 1px 1px 7px;
+}
+
+.brand-copy {
+  min-width: 0;
+}
+
+.rasa-logo {
+  width: 82px;
+  max-height: 31px;
+  object-fit: contain;
+  object-position: left center;
+  filter:
+    invert(1)
+    grayscale(1)
+    contrast(1.12)
+    drop-shadow(0 5px 10px rgba(255,255,255,0.035));
+  opacity: 0.92;
+}
+
+.campaign-copy {
+  max-width: 34em;
+  margin: 5px 0 0;
+  color: #999994;
+  font-size: clamp(8.6px, 2.25vw, 10.5px);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+}
+
+.campaign-copy strong {
+  color: #dddcd6;
+  font-weight: 700;
+}
+
+.camera-switch {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: 5px;
+  min-width: 63px;
+  min-height: 34px;
+  margin-top: 0;
+  padding: 5px 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background:
+    linear-gradient(180deg, #222 0%, #0c0c0c 100%);
+  box-shadow:
+    0 3px 0 #000,
+    inset 0 1px 0 rgba(255,255,255,0.09);
+  cursor: pointer;
+  font-family: "Courier New", monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.camera-switch:active {
+  transform: translateY(2px);
+  box-shadow:
+    0 1px 0 #000,
+    inset 0 1px 0 rgba(255,255,255,0.09);
+}
+
+.switch-icon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+/* --- Camera area --- */
+
+.photo-zone {
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.photo-machine {
+  position: relative;
+  display: grid;
+  grid-template-rows: 18px minmax(0, 1fr);
+  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  aspect-ratio: 9 / 16;
+  padding: 6px;
+  border: 1px solid rgba(255,255,255,0.21);
+  border-radius: 15px;
+  background:
+    linear-gradient(145deg, #3a3a3a 0%, #151515 29%, #070707 68%, #161616 100%);
+  box-shadow:
+    0 14px 34px rgba(0,0,0,0.65),
+    inset 0 1px 0 rgba(255,255,255,0.16),
+    inset 0 -1px 0 #000;
+}
+
+/*
+  The frame itself is 9:16. The machine label is included inside the
+  machine frame, so the camera stage takes the remaining height.
+  object-fit below keeps the photo/frame aligned.
+*/
+.machine-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 0;
+  padding: 0 4px 4px;
+  color: #8f8f89;
+  font-family: "Courier New", monospace;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+}
+
+.status-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #e9e8e2;
+  box-shadow: 0 0 7px rgba(255,255,255,0.48);
+}
+
+.camera-stage {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid #000;
+  border-radius: 9px;
+  background: #000;
+  aspect-ratio: 9 / 16;
+  box-shadow:
+    inset 0 0 20px rgba(0,0,0,0.78),
+    0 0 0 1px rgba(255,255,255,0.035);
+}
+
+#cameraVideo,
+.result-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#cameraVideo {
+  z-index: 1;
+  transform: scaleX(-1);
+}
+
+.camera-stage.is-environment #cameraVideo {
+  transform: none;
+}
+
+.result-image {
+  z-index: 4;
+}
+
+.frame-overlay {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+.camera-stage::after {
+  content: "";
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 3px,
+      rgba(255,255,255,0.018) 4px
+    );
+  mix-blend-mode: screen;
+  opacity: 0.35;
+}
+
+.camera-status {
+  position: absolute;
+  z-index: 8;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  color: #d1d0ca;
+  background: rgba(0,0,0,0.83);
+  font-family: "Courier New", monospace;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.13em;
+  text-align: center;
+}
+
+.flash-layer {
+  position: absolute;
+  z-index: 10;
+  inset: 0;
+  pointer-events: none;
+  background: #fff;
+  opacity: 0;
+}
+
+.camera-stage.is-flashing .flash-layer {
+  animation: flash 260ms ease-out;
+}
+
+@keyframes flash {
+  0% { opacity: 0; }
+  16% { opacity: 0.98; }
+  100% { opacity: 0; }
+}
+
+/* --- Bottom physical control deck --- */
+
+.control-deck {
+  position: relative;
+  z-index: 60;
+  min-height: 74px;
+  padding-top: 7px;
+}
+
+.live-controls {
+  display: grid;
+  grid-template-columns: 1fr 76px 1fr;
+  align-items: center;
+  width: 100%;
+}
+
+.control-caption {
+  display: grid;
+  gap: 1px;
+  color: #6f6f6b;
+  font-family: "Courier New", monospace;
+  font-size: 7px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+}
+
+.control-caption span:first-child {
+  color: #bbb9b3;
+  font-size: 10px;
+}
+
+.control-spacer {
+  display: block;
+}
+
+.shutter-button {
+  width: 68px;
+  height: 68px;
+  margin: 0 auto;
+  padding: 5px;
+  border: 1px solid #9b9b96;
+  border-radius: 50%;
+  background:
+    linear-gradient(145deg, #303030 0%, #090909 76%);
+  box-shadow:
+    0 5px 0 #000,
+    0 9px 20px rgba(0,0,0,0.52),
+    inset 0 1px 0 rgba(255,255,255,0.18);
+  cursor: pointer;
+}
+
+.shutter-ring {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  border: 1px solid #d0cfc9;
+  border-radius: inherit;
+  background:
+    linear-gradient(145deg, #eee 0%, #a5a5a0 100%);
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,0.9),
+    inset 0 -3px 5px rgba(0,0,0,0.26);
+}
+
+.shutter-core {
+  display: block;
+  width: 42px;
+  height: 42px;
+  border: 1px solid #111;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 36% 30%, #303030, #080808 70%);
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,0.13),
+    0 1px 0 rgba(255,255,255,0.12);
+}
+
+.shutter-button:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow:
+    0 2px 0 #000,
+    0 5px 14px rgba(0,0,0,0.48),
+    inset 0 1px 0 rgba(255,255,255,0.18);
+}
+
+.shutter-button:disabled {
+  opacity: 0.33;
+  cursor: wait;
+}
+
+.result-controls {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr;
+  gap: 8px;
+  min-height: 64px;
+  align-items: center;
+}
+
+.utility-button,
+.download-button {
+  min-height: 48px;
+  padding: 10px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-family: "Courier New", monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+}
+
+.utility-button {
+  color: #d2d1cb;
+  border: 1px solid rgba(255,255,255,0.2);
+  background:
+    linear-gradient(180deg, #1e1e1e, #0b0b0b);
+  box-shadow:
+    0 3px 0 #000,
+    inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+.download-button {
+  color: #070707;
+  border: 1px solid #fff;
+  background:
+    linear-gradient(180deg, #fff, #c9c8c2);
+  box-shadow:
+    0 3px 0 #6c6c68,
+    inset 0 1px 0 #fff;
+}
+
+.utility-button:active,
+.download-button:active {
+  transform: translateY(2px);
+}
+
+.permission-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  min-height: 62px;
+  padding: 7px 8px;
+  border: 1px dashed rgba(255,255,255,0.25);
+  border-radius: 8px;
+  background: #090909;
+}
+
+.permission-panel p {
+  margin: 0;
+  color: #aaa9a3;
+  font-size: 9px;
+  line-height: 1.4;
+}
+
+.permission-button {
+  min-height: 38px;
+}
+
+/*
+  Short-screen tuning.
+  iPhone-sized viewports stay entirely within 100dvh with no scrolling.
+*/
+@media (max-height: 760px) {
+  .booth {
+    padding-top: calc(6px + var(--safe-top));
+    padding-bottom: calc(6px + var(--safe-bottom));
+  }
+
+  .rasa-logo {
+    width: 70px;
+    max-height: 27px;
+  }
+
+  .campaign-copy {
+    margin-top: 3px;
+    font-size: 8px;
+    line-height: 1.35;
+  }
+
+  .camera-switch {
+    min-height: 31px;
+  }
+
+  .control-deck {
+    min-height: 66px;
+    padding-top: 4px;
+  }
+
+  .shutter-button {
+    width: 60px;
+    height: 60px;
+  }
+
+  .shutter-core {
+    width: 36px;
+    height: 36px;
+  }
+
+  .live-controls {
+    grid-template-columns: 1fr 66px 1fr;
+  }
+}
+
+@media (min-width: 520px) {
+  .booth {
+    border-right: 1px solid rgba(255,255,255,0.05);
+    border-left: 1px solid rgba(255,255,255,0.05);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
